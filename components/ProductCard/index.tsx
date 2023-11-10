@@ -13,7 +13,7 @@ type productCardProps = {
 }
 export default function ProductCard({ product }: Readonly<productCardProps>) {
     return (
-        <Link href={{query:{bundle: product.name, preCheckoutOpen: true}}} prefetch scroll={false} replace={true}>
+        <Link href={{query:{bundle: product.name}}} prefetch scroll={false} replace={true}>
             <Card className="hover:scale-105 transition duration-700 ease-in-out hover:shadow-md">
                 <CardHeader>
                     <CardTitle>{product.name}</CardTitle>

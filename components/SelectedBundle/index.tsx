@@ -3,6 +3,7 @@ import React, { use, useCallback, useEffect, useMemo } from 'react'
 import ModalLayout from '../ModalLayout'
 import PreCheckoutModal from '../PrecheckoutModal'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Regex } from 'lucide-react'
 type SelectedBundleProps = {
     data: Product[]
 }
@@ -16,28 +17,16 @@ export default function SelectedBundle({ data }: Readonly<SelectedBundleProps>) 
         return data.find((product) => product.name === searchParams.get('bundle'))
     }, [searchParams, data])
 
-    const preCheckoutOpen = useMemo(() => {
-        return searchParams.has('preCheckoutOpen')
-    }, [searchParams])
-
-    useEffect(() => {
-        if (selectedProduct) {
-            const searchParamsString = searchParams.toString()
-            const newSearchParamsString = `${searchParamsString}&preCheckoutOpen=true`
-            router.replace(`${pathname}?${newSearchParamsString}`)
-        }
-    }, [])
-
-
     const handleClose = useCallback(() => {
         const searchParamsString = searchParams.toString()
-        const newSearchParamsString = searchParamsString.replace(/preCheckoutOpen(?:=[^&\s]*)?(?:&[^&\s]*)*$/, '')
+        const bundleParamRegex = new RegExp(`bundle=${selectedProduct?.name}(?:&|$)`, 'i')
+        const newSearchParamsString = searchParamsString.replace(bundleParamRegex, '')
         router.replace(`${pathname}?${newSearchParamsString}`)
-    }, [router, pathname, searchParams])
+    }, [router, pathname, searchParams, selectedProduct])
 
     if (!selectedProduct) return null
     return (
-        <ModalLayout open={preCheckoutOpen} onOpenChange={handleClose}>
+        <ModalLayout open={!!selectedProduct} onOpenChange={handleClose}>
             <PreCheckoutModal product={selectedProduct} />
         </ModalLayout> 
        )
