@@ -1,5 +1,5 @@
 import { Product } from '@/types/product'
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { use, useCallback, useEffect, useMemo } from 'react'
 import ModalLayout from '../ModalLayout'
 import PreCheckoutModal from '../PrecheckoutModal'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -20,6 +20,13 @@ export default function SelectedBundle({ data }: Readonly<SelectedBundleProps>) 
         return searchParams.has('preCheckoutOpen')
     }, [searchParams])
 
+    useEffect(() => {
+        if (selectedProduct) {
+            const searchParamsString = searchParams.toString()
+            const newSearchParamsString = `${searchParamsString}&preCheckoutOpen=true`
+            router.replace(`${pathname}?${newSearchParamsString}`)
+        }
+    }, [])
 
 
     const handleClose = useCallback(() => {
