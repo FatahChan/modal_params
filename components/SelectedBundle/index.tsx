@@ -14,12 +14,12 @@ export default function SelectedBundle({ data }: Readonly<SelectedBundleProps>) 
     const pathname = usePathname()
 
     const selectedProduct = useMemo(() => {
-        return data.find((product) => product.name === searchParams.get('bundle'))
+        return data.find((product) => product.name === searchParams.get('bundle')) ?? null
     }, [searchParams, data])
 
     const handleClose = useCallback(() => {
         const searchParamsString = searchParams.toString()
-        const bundleParamRegex = new RegExp(`bundle=${selectedProduct?.name}(?:&|$)`, 'i')
+        const bundleParamRegex = new RegExp(`bundle=${selectedProduct?.name ?? ''}(?:&|$)`, 'i')
         const newSearchParamsString = searchParamsString.replace(bundleParamRegex, '')
         router.replace(`${pathname}?${newSearchParamsString}`)
     }, [router, pathname, searchParams, selectedProduct])
