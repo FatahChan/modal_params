@@ -9,7 +9,7 @@ export default function ProductGrid({ data }: Readonly<ClientWrapperProps>) {
 
     // create a random grid with cards from the data
     return (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {data.map((product: Product) => {
                 return (
                     <ProductCard key={product.name} product={product} />

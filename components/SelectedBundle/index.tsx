@@ -1,9 +1,9 @@
+'use client'
 import { Product } from '@/types/product'
-import React, { use, useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import ModalLayout from '../ModalLayout'
 import PreCheckoutModal from '../PrecheckoutModal'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Regex } from 'lucide-react'
 type SelectedBundleProps = {
     data: Product[]
 }
@@ -28,6 +28,6 @@ export default function SelectedBundle({ data }: Readonly<SelectedBundleProps>) 
     return (
         <ModalLayout open={!!selectedProduct} onOpenChange={handleClose}>
             <PreCheckoutModal product={selectedProduct} />
-        </ModalLayout> 
-       )
+        </ModalLayout>
+    )
 }
